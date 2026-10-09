@@ -40,7 +40,12 @@ def split_logic(df, split_amount, target_col="中奖金额"):
 st.title("⚡ Excel 中奖金额拆分")
 st.caption("自动识别「中奖金额」列并按指定阈值切分，其余列数据自动复制。")
 
-# 4. 使用原生带边框的卡片容器包裹核心操作区（精美不违和）
+# 4. 重要声明 (醒目的警告框)
+st.warning(
+    "⚠️ **重要免责声明**：本工具仅供辅助处理。**拆分完成后，请务必自行严格核对拆分结果与数据总额，确认无误后再进行业务使用！**"
+)
+
+# 5. 原生卡片容器包裹核心操作区
 with st.container(border=True):
     # 第一步：参数与文件配置
     st.subheader("1. 配置与上传", divider="blue")
@@ -85,12 +90,12 @@ with st.container(border=True):
                 except Exception as e:
                     st.error(f"处理失败: {str(e)}")
 
-# 5. 结果展示卡片
+# 6. 结果展示卡片
 if 'output_data' in st.session_state and uploaded_file is not None:
     st.write("")
     with st.container(border=True):
         st.subheader("2. 处理结果", divider="green")
-        st.success(f"已成功将表格拆分完成！")
+        st.success("已成功将表格拆分完成！")
         
         # 结果预览
         st.dataframe(st.session_state['result_df'].head(10), use_container_width=True)
