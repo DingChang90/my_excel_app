@@ -1,15 +1,15 @@
 # ⚡ Excel 中奖金额拆分工具 (Excel Winner Amount Splitter)
+> 🚀 在线直接体验：**https://myexcelapp.streamlit.app/**
 
 一个基于 Python & Streamlit 开发的轻量级 Web 数据处理工具。自动识别表格中的「中奖金额」列，将超过指定阈值的金额切分为多行数据，并原样复制其他关联列信息，完美解决人工拆分繁琐、易错的问题。
 
-![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B?style=flat&logo=streamlit&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
+
+
 
 ---
 
 ## 🌟 核心功能
-
 - **智能列定位**：自动读取上传 Excel 的第一个 Sheet，精准识别标题为 `中奖金额` 的列。
 - **自定义拆分阈值**：支持任意金额阈值设置（如 200 元），超过阈值自动切分，剩余金额精确保留（绝不留 0 元行）。
 - **数据关联复用**：拆分生成的新行紧跟在原行下方，原数据的其他所有字段（如姓名、订单号、时间等）自动完整复制。
@@ -19,7 +19,6 @@
 ---
 
 ## 💡 拆分逻辑示例
-
 **输入条件**：拆分阈值设为 **`200`** 元。
 
 #### 拆分前：
@@ -41,11 +40,24 @@
 
 ---
 
-## 🛠️ 本地运行指南
+## 🚀 在线使用
+无需配置 Python 环境，直接访问网页即可使用：
+> https://myexcelapp.streamlit.app/
 
-如果你想在本地（Mac / Windows / Linux / Armbian）直接运行该项目：
+1. 打开上面链接
+2. 设置拆分阈值
+3. 上传你的 Excel 文件
+4. 预览结果，导出处理后的表格
 
-### 1. 克隆/下载本仓库
+## 🛠️ 本地部署（可选）
+如果你想本地运行项目：
 ```bash
-git clone [https://github.com/你的用户名/你的仓库名.git](https://github.com/你的用户名/你的仓库名.git)
-cd 你的仓库名
+# 克隆仓库
+git clone https://github.com/DingChang90/my_excel_app.git
+cd my_excel_app
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 启动
+streamlit run app.py
