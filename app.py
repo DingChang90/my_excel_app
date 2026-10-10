@@ -6,12 +6,14 @@ import threading
 from datetime import datetime
 import pytz
 
-# ============ 钉钉机器人配置 新增部分 ============
-DING_WEBHOOK_URL = "https://oapi.dingtalk.com/robot/send?access_token=b1760d6acb10381387ac128e7ee0c5b90968d4ab19042853c3c62329d99f5103"
-
+# ============ 钉钉机器人配置：从streamlit secrets读取，不在代码写死token ============
 def ding_notify_user_action():
     """后台线程发送钉钉通知，使用国内北京时间，不阻塞主业务流程"""
     try:
+        # 从secrets读取webhook地址
+        DING_WEBHOOK_URL = st.secrets["ding_webhook"]
+        if not DING_WEBHOOK_URL:
+            return
         # 获取上海时区(北京时间)
         tz_shanghai = pytz.timezone("Asia/Shanghai")
         now_time = datetime.now(tz_shanghai).strftime("%Y-%m-%d %H:%M:%S")
@@ -24,7 +26,7 @@ def ding_notify_user_action():
         }
         requests.post(DING_WEBHOOK_URL, json=payload, timeout=3)
     except Exception:
-        # 钉钉发送失败直接静默，不影响工具使用
+        # 没有配置secrets / 钉钉发送失败，全部静默，不影响工具使用
         pass
 
 # 1. 页面设置：使用居中布局
@@ -88,7 +90,7 @@ with st.container(border=True):
     if uploaded_file is not None:
         st.write("")
         if st.button("开始拆分处理", type="primary", use_container_width=True):
-            # 【新增】开启后台线程发送钉钉通知，真正执行功能时触发
+            # 开启后台线程发送钉钉通知，真正执行功能时触发
             t = threading.Thread(target=ding_notify_user_action, daemon=True)
             t.start()
 
