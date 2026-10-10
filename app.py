@@ -4,14 +4,17 @@ import streamlit as st
 import requests
 import threading
 from datetime import datetime
+import pytz
 
 # ============ 钉钉机器人配置 新增部分 ============
 DING_WEBHOOK_URL = "https://oapi.dingtalk.com/robot/send?access_token=b1760d6acb10381387ac128e7ee0c5b90968d4ab19042853c3c62329d99f5103"
 
 def ding_notify_user_action():
-    """后台线程发送钉钉通知，不阻塞主业务流程"""
+    """后台线程发送钉钉通知，使用国内北京时间，不阻塞主业务流程"""
     try:
-        now_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # 获取上海时区(北京时间)
+        tz_shanghai = pytz.timezone("Asia/Shanghai")
+        now_time = datetime.now(tz_shanghai).strftime("%Y-%m-%d %H:%M:%S")
         msg_content = f"streamlit：中奖拆分，有用户执行了拆分功能，触发时间：{now_time}"
         payload = {
             "msgtype": "text",
