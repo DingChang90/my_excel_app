@@ -4,7 +4,7 @@ import streamlit as st
 import requests
 import threading
 from datetime import datetime
-import pytz
+from zoneinfo import ZoneInfo
 
 # ============ 钉钉机器人配置：从streamlit secrets读取，不在代码写死token ============
 def ding_notify_user_action():
@@ -14,8 +14,8 @@ def ding_notify_user_action():
         DING_WEBHOOK_URL = st.secrets["ding_webhook"]
         if not DING_WEBHOOK_URL:
             return
-        # 获取上海时区(北京时间)
-        tz_shanghai = pytz.timezone("Asia/Shanghai")
+        # 使用标准库ZoneInfo获取上海北京时间，不需要pytz第三方包
+        tz_shanghai = ZoneInfo("Asia/Shanghai")
         now_time = datetime.now(tz_shanghai).strftime("%Y-%m-%d %H:%M:%S")
         msg_content = f"streamlit：中奖拆分，有用户执行了拆分功能，触发时间：{now_time}"
         payload = {
